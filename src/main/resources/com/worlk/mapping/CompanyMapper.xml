@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.worlk.dao.CompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.worlk.entity.Company" >
+    <id column="companyid" property="companyid" jdbcType="INTEGER" />
+    <result column="companyname" property="companyname" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="parentcompanyid" property="parentcompanyid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    companyid, companyname, city, level, parentcompanyid, status, code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from company
+    where companyid = #{companyid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from company
+    where companyid = #{companyid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.worlk.entity.Company" >
+    insert into company (companyid, companyname, city, 
+      level, parentcompanyid, status, 
+      code)
+    values (#{companyid,jdbcType=INTEGER}, #{companyname,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{parentcompanyid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{code,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.worlk.entity.Company" >
+    insert into company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyid != null" >
+        companyid,
+      </if>
+      <if test="companyname != null" >
+        companyname,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="parentcompanyid != null" >
+        parentcompanyid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyid != null" >
+        #{companyid,jdbcType=INTEGER},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="parentcompanyid != null" >
+        #{parentcompanyid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.worlk.entity.Company" >
+    update company
+    <set >
+      <if test="companyname != null" >
+        companyname = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="parentcompanyid != null" >
+        parentcompanyid = #{parentcompanyid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where companyid = #{companyid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.worlk.entity.Company" >
+    update company
+    set companyname = #{companyname,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      parentcompanyid = #{parentcompanyid,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR}
+    where companyid = #{companyid,jdbcType=INTEGER}
+  </update>
+</mapper>

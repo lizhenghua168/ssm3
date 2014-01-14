@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.worlk.dao.EmployeeMapper" >
+    <resultMap id="BaseResultMap" type="com.worlk.entity.Employee" >
+        <id column="employeeid" property="employeeid" jdbcType="INTEGER" />
+        <result column="departmentid" property="departmentid" jdbcType="INTEGER" />
+        <result column="employeename" property="employeename" jdbcType="VARCHAR" />
+        <result column="mobilephone" property="mobilephone" jdbcType="VARCHAR" />
+        <result column="companyid" property="companyid" jdbcType="INTEGER" />
+        <result column="sex" property="sex" jdbcType="INTEGER" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="loginname" property="loginname" jdbcType="VARCHAR" />
+        <result column="idcode" property="idcode" jdbcType="VARCHAR" />
+        <result column="position" property="position" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        employeeid, departmentid, employeename, mobilephone, companyid, sex, status, password,
+        loginname, idcode, position
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from employee
+        where employeeid = #{employeeid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from employee
+        where employeeid = #{employeeid,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.worlk.entity.Employee" >
+        insert into employee (employeeid, departmentid, employeename,
+        mobilephone, companyid, sex,
+        status, password, loginname,
+        idcode, position)
+        values (#{employeeid,jdbcType=INTEGER}, #{departmentid,jdbcType=INTEGER}, #{employeename,jdbcType=VARCHAR},
+        #{mobilephone,jdbcType=VARCHAR}, #{companyid,jdbcType=INTEGER}, #{sex,jdbcType=INTEGER},
+        #{status,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR},
+        #{idcode,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.worlk.entity.Employee" >
+        insert into employee
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="employeeid != null" >
+                employeeid,
+            </if>
+            <if test="departmentid != null" >
+                departmentid,
+            </if>
+            <if test="employeename != null" >
+                employeename,
+            </if>
+            <if test="mobilephone != null" >
+                mobilephone,
+            </if>
+            <if test="companyid != null" >
+                companyid,
+            </if>
+            <if test="sex != null" >
+                sex,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+            <if test="loginname != null" >
+                loginname,
+            </if>
+            <if test="idcode != null" >
+                idcode,
+            </if>
+            <if test="position != null" >
+                position,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="employeeid != null" >
+                #{employeeid,jdbcType=INTEGER},
+            </if>
+            <if test="departmentid != null" >
+                #{departmentid,jdbcType=INTEGER},
+            </if>
+            <if test="employeename != null" >
+                #{employeename,jdbcType=VARCHAR},
+            </if>
+            <if test="mobilephone != null" >
+                #{mobilephone,jdbcType=VARCHAR},
+            </if>
+            <if test="companyid != null" >
+                #{companyid,jdbcType=INTEGER},
+            </if>
+            <if test="sex != null" >
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="password != null" >
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="loginname != null" >
+                #{loginname,jdbcType=VARCHAR},
+            </if>
+            <if test="idcode != null" >
+                #{idcode,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null" >
+                #{position,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.worlk.entity.Employee" >
+        update employee
+        <set >
+            <if test="departmentid != null" >
+                departmentid = #{departmentid,jdbcType=INTEGER},
+            </if>
+            <if test="employeename != null" >
+                employeename = #{employeename,jdbcType=VARCHAR},
+            </if>
+            <if test="mobilephone != null" >
+                mobilephone = #{mobilephone,jdbcType=VARCHAR},
+            </if>
+            <if test="companyid != null" >
+                companyid = #{companyid,jdbcType=INTEGER},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="loginname != null" >
+                loginname = #{loginname,jdbcType=VARCHAR},
+            </if>
+            <if test="idcode != null" >
+                idcode = #{idcode,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null" >
+                position = #{position,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where employeeid = #{employeeid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.worlk.entity.Employee" >
+        update employee
+        set departmentid = #{departmentid,jdbcType=INTEGER},
+        employeename = #{employeename,jdbcType=VARCHAR},
+        mobilephone = #{mobilephone,jdbcType=VARCHAR},
+        companyid = #{companyid,jdbcType=INTEGER},
+        sex = #{sex,jdbcType=INTEGER},
+        status = #{status,jdbcType=INTEGER},
+        password = #{password,jdbcType=VARCHAR},
+        loginname = #{loginname,jdbcType=VARCHAR},
+        idcode = #{idcode,jdbcType=VARCHAR},
+        position = #{position,jdbcType=VARCHAR}
+        where employeeid = #{employeeid,jdbcType=INTEGER}
+    </update>
+</mapper>
