@@ -1,7 +1,9 @@
-package com.worlk.dao;
+package com.worlk.mapper;
 
 import com.worlk.entity.Company;
+import org.springframework.stereotype.Repository;
 
+@Repository(value = "companyMapper")
 public interface CompanyMapper {
     int deleteByPrimaryKey(Integer companyid);
 

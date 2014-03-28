@@ -1,7 +1,9 @@
-package com.worlk.dao;
+package com.worlk.mapper;
 
 import com.worlk.entity.Employee;
+import org.springframework.stereotype.Repository;
 
+@Repository(value = "employeeMapper")
 public interface EmployeeMapper {
     int deleteByPrimaryKey(Integer employeeid);
 
@@ -14,4 +16,8 @@ public interface EmployeeMapper {
     int updateByPrimaryKeySelective(Employee record);
 
     int updateByPrimaryKey(Employee record);
+
+    //List<Employee> queryEmpByPage(Page page);
+
+    //List<Employee> queryEmployeeByPage(Employee employee, );
 }

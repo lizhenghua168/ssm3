@@ -18,8 +18,17 @@
         <setting name="jdbcTypeForNull" value="OTHER"/>
         <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
     </settings>
+
+    <plugins>
+        <plugin interceptor="com.worlk.common.pagination.interceptor.PaginationInterceptor">
+            <property name="dialect" value="mysql"></property>
+            <property name="pageSqlId" value=".*Page$"></property>
+        </plugin>
+    </plugins>
+
     <mappers>
         <mapper resource="com/worlk/mapping/CompanyMapper.xml"/>
         <mapper resource="com/worlk/mapping/EmployeeMapper.xml"/>
     </mappers>
+
 </configuration>

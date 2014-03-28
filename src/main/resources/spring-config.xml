@@ -24,7 +24,7 @@
     <tx:annotation-driven transaction-manager="txManager"/>
 
     <!-- 扫描注解Bean -->
-    <context:component-scan base-package="com.worlk.service">
+    <context:component-scan base-package="com.worlk.scan">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
@@ -80,12 +80,30 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
         <property name="dataSource" ref="dataSource"/>
+        <!--<property name="plugins">
+            <array>
+                <ref bean="pagenationInterceptor" />
+            </array>
+        </property>-->
         <property name="configLocation" value="classpath:mybatis-config.xml" />
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.worlk.dao" />
+        <property name="basePackage" value="com.worlk.mapper" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
+
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+    <!--<bean id="pagenationInterceptor" class="com.worlk.common.pagination.interceptor.PaginationInterceptor">
+        <property name="properties">
+            <props>
+                <prop key="dialect">mysql</prop>
+                <prop key="pageSqlRegex">.*Page$</prop>
+            </props>
+        </property>
+    </bean>-->
 
 </beans>

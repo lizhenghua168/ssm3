@@ -1,4 +1,4 @@
-package com.worlk.service;
+package com.worlk.scan.service;
 
 import com.worlk.entity.Employee;
 
@@ -11,4 +11,7 @@ public interface EmployeeService {
 
     void updateByPrimaryKey(Employee employee);
 
+    //List<Employee> queryEmpByPage(Page page);
+
+    com.worlk.common.pagination.Page.Page queryEmployee(Employee employee, int pageNum, int pageSize);
 }

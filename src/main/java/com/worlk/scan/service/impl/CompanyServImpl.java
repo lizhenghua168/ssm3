@@ -1,12 +1,13 @@
-package com.worlk.service.impl;
+package com.worlk.scan.service.impl;
 
-import com.worlk.dao.CompanyMapper;
-import com.worlk.dao.EmployeeMapper;
 import com.worlk.entity.Company;
 import com.worlk.entity.Employee;
-import com.worlk.service.CompanyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.worlk.mapper.CompanyMapper;
+import com.worlk.mapper.EmployeeMapper;
+import com.worlk.scan.service.CompanyService;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompanyServImpl implements CompanyService {
 
+    @Resource(name = "companyMapper")
     private CompanyMapper companyMapper;
+    @Resource(name = "employeeMapper")
     private EmployeeMapper employeeMapper;
 
     @Override
@@ -33,16 +36,4 @@ public class CompanyServImpl implements CompanyService {
         employeeMapper.updateByPrimaryKey(employee);
     }
 
-    public CompanyMapper getCompanyMapper() {
-        return companyMapper;
-    }
-    @Autowired
-    public void setCompanyMapper(CompanyMapper companyMapper) {
-        this.companyMapper = companyMapper;
-    }
-
-    @Autowired
-    public void setEmployeeMapper(EmployeeMapper employeeMapper) {
-        this.employeeMapper = employeeMapper;
-    }
 }

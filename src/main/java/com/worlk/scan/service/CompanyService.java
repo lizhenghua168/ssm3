@@ -1,4 +1,4 @@
-package com.worlk.service;
+package com.worlk.scan.service;
 
 import com.worlk.entity.Company;
 import com.worlk.entity.Employee;
