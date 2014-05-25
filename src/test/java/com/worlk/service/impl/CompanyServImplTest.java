@@ -1,12 +1,12 @@
 package com.worlk.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.worlk.entity.Company;
 import com.worlk.entity.Employee;
-import com.worlk.service.CompanyService;
-import com.worlk.service.EmployeeService;
+import com.worlk.scan.service.CompanyService;
+import com.worlk.scan.service.EmployeeService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -29,14 +29,21 @@ public class CompanyServImplTest {
 
     //private static final Logger logger = Logger.getLogger(CompanyServImplTest.class);
 
+    @Autowired
     private CompanyService companyService;
+    @Autowired
     private EmployeeService employeeService;
 
     @Test
     public void test1()
     {
         Company company = companyService.selectByPrimaryKey(1);
-        System.out.println(JSON.toJSON(company));
+
+        company.setCompanyname(null);
+
+        company = companyService.selectByPrimaryKey(1);
+
+        System.out.println(company.getCompanyname());
     }
 
     @Test
@@ -46,13 +53,13 @@ public class CompanyServImplTest {
         Employee employee = employeeService.selectByPrimaryKey(1);
         company.setCity("湘乡");
 
-        employee.setEmployeename("张三1");
+        employee.setEmployeename("张三");
         employee.setDepartmentid(1);
 
         companyService.updateByPrimaryKey(company, employee);
 
         company = companyService.selectByPrimaryKey(1);
-        assertEquals("株洲", company.getCity());
+        assertEquals("湘乡", company.getCity());
     }
 
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.worlk.dao.EmployeeMapper" >
+<mapper namespace="com.worlk.mapper.EmployeeMapper" >
   <resultMap id="BaseResultMap" type="com.worlk.entity.Employee" >
     <id column="employeeid" property="employeeid" jdbcType="INTEGER" />
     <result column="departmentid" property="departmentid" jdbcType="INTEGER" />
@@ -161,4 +161,12 @@
       position = #{position,jdbcType=VARCHAR}
     where employeeid = #{employeeid,jdbcType=INTEGER}
   </update>
+
+    <select id="queryEmpByPage" parameterType="com.worlk.common.mybatisInterceptor.Page" resultMap="BaseResultMap">
+        select * from employee where employeename like '%${employee.employeename}%'
+    </select>
+
+    <select id="queryEmpListPage" parameterType="java.lang.Object" resultMap="BaseResultMap">
+        select * from employee where employeename like '%${employeename}%'
+    </select>
 </mapper>
