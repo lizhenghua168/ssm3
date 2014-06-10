@@ -80,11 +80,11 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
         <property name="dataSource" ref="dataSource"/>
-        <property name="plugins">
+        <!--<property name="plugins">
             <array>
                 <ref bean="pagenationInterceptor" />
             </array>
-        </property>
+        </property>-->
         <property name="configLocation" value="classpath:mybatis-config.xml" />
     </bean>
 
@@ -93,17 +93,17 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
-    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+    <!--<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="sqlSessionFactory"/>
-    </bean>
+    </bean>-->
 
-    <bean id="pagenationInterceptor" class="com.worlk.common.pagination.interceptor.PaginationInterceptor">
+    <!--<bean id="pagenationInterceptor" class="com.worlk.common.pagination.interceptor.PaginationInterceptor">
         <property name="properties">
             <props>
                 <prop key="dialect">mysql</prop>
                 <prop key="pageSqlRegex">.*Page$</prop>
             </props>
         </property>
-    </bean>
+    </bean>-->
 
 </beans>

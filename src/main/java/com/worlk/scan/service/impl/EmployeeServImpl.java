@@ -1,16 +1,19 @@
 package com.worlk.scan.service.impl;
 
-import com.worlk.common.pagination.interceptor.PaginationInterceptor;
+import com.worlk.common.pagination.Page.Page;
 import com.worlk.common.pagination.Page.PageUtil;
-import com.worlk.scan.dao.EmployeeDAO;
+import com.worlk.common.pagination.domain.PageBounds;
+import com.worlk.common.pagination.domain.PageList;
+import com.worlk.common.pagination.interceptor.PaginationInterceptor2;
 import com.worlk.entity.Employee;
 import com.worlk.mapper.EmployeeMapper;
+import com.worlk.scan.dao.EmployeeDAO;
 import com.worlk.scan.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by XSF on 14-1-6.
@@ -18,9 +21,10 @@ import java.util.List;
 @Service("EmployeeService")
 public class EmployeeServImpl implements EmployeeService
 {
-    @Resource(name = "employeeDAO")
+
     private EmployeeDAO employeeDAO;
 
+    @Autowired
     private EmployeeMapper employeeMapper;
 
 
@@ -34,6 +38,13 @@ public class EmployeeServImpl implements EmployeeService
         employeeMapper.updateByPrimaryKey(employee);
     }
 
+    @Override
+    public Page queryEmpByPage(Map<String, Employee> employeeMap, PageBounds pageBounds) {
+        PageList<Employee> employeeList = employeeMapper.query(employeeMap, pageBounds);
+
+        return PageUtil.getPage(employeeList.getPaginator().getTotalCount(), pageBounds.getPage(), employeeList, pageBounds.getLimit());
+    }
+
     /*@Override
     public List<Employee> queryEmpByPage(Page page) {
         return employeeMapper.queryEmpByPage(page);
@@ -42,14 +53,8 @@ public class EmployeeServImpl implements EmployeeService
     @Override
     public com.worlk.common.pagination.Page.Page queryEmployee(Employee employee, int pageNum, int pageSize) {
         List<Employee> employeeList = employeeDAO.queryPage("com.worlk.mapper.EmployeeMapper.queryEmpListPage",employee, pageNum, pageSize);
-        int totalCount = PaginationInterceptor.getPaginationTotal();
+        int totalCount = PaginationInterceptor2.getPaginationTotal();
         return PageUtil.getPage(totalCount, pageNum, employeeList, pageSize);
-    }
-
-    @Autowired
-    public void setCompanyService(EmployeeMapper employeeMapper)
-    {
-        this.employeeMapper = employeeMapper;
     }
 
 }

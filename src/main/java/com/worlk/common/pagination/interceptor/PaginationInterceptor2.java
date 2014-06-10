@@ -3,18 +3,13 @@ package com.worlk.common.pagination.interceptor;
 import com.worlk.common.pagination.dialect.DatabaseType;
 import com.worlk.common.pagination.dialect.Dialect;
 import com.worlk.common.pagination.dialect.DialectFactory;
-import com.worlk.common.pagination.dialect.SqlHelper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
-import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
 import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
-import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,9 +20,9 @@ import java.util.Properties;
  * Created by XSF on 14-3-24.
  */
 @Intercepts({@Signature(type =StatementHandler.class, method = "prepare", args ={Connection.class})})
-public class PaginationInterceptor implements Interceptor
+public class PaginationInterceptor2 implements Interceptor
 {
-    private static final Logger logger = LoggerFactory.getLogger(PaginationInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(PaginationInterceptor2.class);
     private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
     private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
     private static final String DEFAULT_DIALECT = "mysql"; // 数据库类型(默认为mysql)
@@ -43,21 +38,32 @@ public class PaginationInterceptor implements Interceptor
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
+        /*StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
 
-        MetaObject metaStatementHandler = MetaObject.forObject(statementHandler,
-                DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY);
-
-        RowBounds rowBounds = (RowBounds) metaStatementHandler.getValue("delegate.rowBounds");
-        if(rowBounds == null || rowBounds == RowBounds.DEFAULT) {
-            return invocation.proceed();
+        RoutingStatementHandler handler = (RoutingStatementHandler) invocation.getTarget();
+        //通过反射获取到当前RoutingStatementHandler对象的delegate属性
+        StatementHandler delegate = (StatementHandler) ReflectUtil.getFieldValue(handler, "delegate");
+        BoundSql boundSql = delegate.getBoundSql();
+        //拿到当前绑定Sql的参数对象，就是我们在调用对应的Mapper映射语句时所传入的参数对象
+        Object obj = boundSql.getParameterObject();
+        //这里我们简单的通过传入的是Page对象就认定它是需要进行分页操作的。
+        if (obj instanceof Page<?>) {
+            Page<?> page = (Page<?>) obj;
+            //通过反射获取delegate父类BaseStatementHandler的mappedStatement属性
+            MappedStatement mappedStatement = (MappedStatement)ReflectUtil.getFieldValue(delegate, "mappedStatement");
+            //拦截到的prepare方法参数是一个Connection对象
+            Connection connection = (Connection)invocation.getArgs()[0];
+            //获取当前要执行的Sql语句，也就是我们直接在Mapper映射语句中写的Sql语句
+            String sql = boundSql.getSql();
+            //给当前的page参数对象设置总记录数
+            this.setTotalRecord(page,
+                    mappedStatement, connection);
+            //获取分页Sql语句
+            String pageSql = dialect.getPageSql(sql, page);
+            //利用反射设置当前BoundSql对应的sql属性为我们建立好的分页Sql语句
+            ReflectUtil.setFieldValue(boundSql, "sql", pageSql);
         }
-
-        MappedStatement mappedStatement = (MappedStatement)
-                metaStatementHandler.getValue("delegate.mappedStatement");
-        // 只重写需要分页的sql语句。通过MappedStatement的ID匹配，默认重写以Page结尾的
-        //  MappedStatement的sql
-        if (mappedStatement.getId().matches(pageSqlRegex)) {
+        if (delegate.getId().matches(pageSqlRegex)) {
             BoundSql boundSql = (BoundSql) metaStatementHandler.getValue("delegate.boundSql");
             String sql = boundSql.getSql();
             // 重写sql
@@ -77,7 +83,7 @@ public class PaginationInterceptor implements Interceptor
             int totalCount = SqlHelper.getTotalCount(sql, connection, mappedStatement, boundSql);
 
             PAGINATION_TOTAL.set(totalCount);
-        }
+        }*/
         // 将执行权交给下一个拦截器
         return invocation.proceed();
     }
@@ -136,7 +142,7 @@ public class PaginationInterceptor implements Interceptor
     }
 
     public static void setDialect(Dialect dialect) {
-        PaginationInterceptor.dialect = dialect;
+        PaginationInterceptor2.dialect = dialect;
     }
 
     public static String getPageSqlRegex() {
@@ -144,6 +150,6 @@ public class PaginationInterceptor implements Interceptor
     }
 
     public static void setPageSqlRegex(String pageSqlRegex) {
-        PaginationInterceptor.pageSqlRegex = pageSqlRegex;
+        PaginationInterceptor2.pageSqlRegex = pageSqlRegex;
     }
 }

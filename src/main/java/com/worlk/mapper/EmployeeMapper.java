@@ -1,7 +1,11 @@
 package com.worlk.mapper;
 
+import com.worlk.common.pagination.domain.PageBounds;
+import com.worlk.common.pagination.domain.PageList;
 import com.worlk.entity.Employee;
 import org.springframework.stereotype.Repository;
+
+import java.util.Map;
 
 @Repository(value = "employeeMapper")
 public interface EmployeeMapper {
@@ -17,7 +21,7 @@ public interface EmployeeMapper {
 
     int updateByPrimaryKey(Employee record);
 
-    //List<Employee> queryEmpByPage(Page page);
+    PageList<Employee> query(Map<String, Employee> employeeMap, PageBounds pageBounds);
 
     //List<Employee> queryEmployeeByPage(Employee employee, );
 }

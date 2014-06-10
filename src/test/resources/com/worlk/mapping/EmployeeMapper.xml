@@ -162,11 +162,12 @@
     where employeeid = #{employeeid,jdbcType=INTEGER}
   </update>
 
-    <select id="queryEmpByPage" parameterType="com.worlk.common.mybatisInterceptor.Page" resultMap="BaseResultMap">
-        select * from employee where employeename like '%${employee.employeename}%'
-    </select>
-
-    <select id="queryEmpListPage" parameterType="java.lang.Object" resultMap="BaseResultMap">
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
         select * from employee where employeename like '%${employeename}%'
     </select>
+
+
+    <!--<select id="queryEmpListPage" parameterType="java.lang.Object" resultMap="BaseResultMap">
+        select * from employee where employeename like '%${employeename}%'
+    </select>-->
 </mapper>

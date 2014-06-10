@@ -1,7 +1,6 @@
 package com.worlk.scan.dao.impl;
 
 import com.worlk.scan.dao.BaseDAO;
-import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +15,10 @@ public class BaseDAOImpl<E> extends SqlSessionDaoSupport implements BaseDAO {
     @Override
     public List<E> queryPage(String statement, Object parameter,
                              int offset, int limit) {
-        RowBounds rowBounds = new RowBounds(offset, limit);
+        /*RowBounds rowBounds = new RowBounds(offset, limit);
 
-        return getSqlSession().selectList(statement, parameter, rowBounds);
+        return getSqlSession().selectList(statement, parameter, rowBounds);*/
+        return null;
     }
 
 }

@@ -15,14 +15,17 @@
         <setting name="safeRowBoundsEnabled" value="false"/>
         <setting name="mapUnderscoreToCamelCase" value="false"/>
         <setting name="localCacheScope" value="SESSION"/>
-        <setting name="jdbcTypeForNull" value="OTHER"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
         <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
     </settings>
 
     <plugins>
-        <plugin interceptor="PaginationInterceptor">
+        <!--<plugin interceptor="com.worlk.common.pagination.interceptor.PaginationInterceptor">
             <property name="dialect" value="mysql"></property>
             <property name="pageSqlId" value=".*Page$"></property>
+        </plugin>-->
+        <plugin interceptor="com.worlk.common.pagination.OffsetLimitInterceptor">
+            <property name="dialectClass" value="com.worlk.common.pagination.dialect.MySQLDialect"></property>
         </plugin>
     </plugins>
 
